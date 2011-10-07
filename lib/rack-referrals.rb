@@ -1,26 +1,42 @@
 require "rack-referrals/version"
 
 module Rack
+  
+  #
+  # Rack Middleware for extracting information from the HTTP-REFERER header.
+  # Specifically, it populates +env['referring.search_engine']+ and 
+  # +env['referring.search_phrase']+ if it detects a request came from a known 
+  # search engine.
+  #
   class Referrals
     
     DEFAULT_ENGINES = {
-      :google     => [/^http:\/\/(www\.)?google.*/, 'q'],
-      :yahoo      => [/^http:\/\/search\.yahoo.*/, 'p'],
-      :msn        => [/^http:\/\/search\.msn.*/, 'q'],
-      :aol        => [/^http:\/\/search\.aol.*/, 'userQuery'],
-      :altavista  => [/^http:\/\/(www\.)?altavista.*/, 'q'],
-      :feedster   => [/^http:\/\/(www\.)?feedster.*/, 'q'],
-      :lycos      => [/^http:\/\/search\.lycos.*/, 'query'],
-      :alltheweb  => [/^http:\/\/(www\.)?alltheweb.*/, 'q'] 
+      # Tested myself
+      :google     => [/^https?:\/\/(www\.)?google.*/, 'q'],
+      :yahoo      => [/^https?:\/\/([^\.]+.)?search\.yahoo.*/, 'p'],
+      :bing       => [/^https?:\/\/search\.bing.*/, 'q'],
+      :biadu      => [/^https?:\/\/(www\.)?baidu.*/, 'wd'],
+      :rambler    => [/^https?:\/\/([^\.]+.)?rambler.ru/, 'query'],
+      :yandex     => [/^https?:\/\/(www\.)?yandex.ru/, 'text'],      
+
+      # Borrowed from https://github.com/squeejee/search_sniffer
+      :msn        => [/^https?:\/\/search\.msn.*/, 'q'],
+      :aol        => [/^https?:\/\/(www\.)?\.aol.*/, 'query'],
+      :altavista  => [/^https?:\/\/(www\.)?altavista.*/, 'q'],
+      :feedster   => [/^https?:\/\/(www\.)?feedster.*/, 'q'],
+      :lycos      => [/^https?:\/\/search\.lycos.*/, 'query'],
+      :alltheweb  => [/^https?:\/\/(www\.)?alltheweb.*/, 'q'] 
+      
+      # Want to add support for more? A good place to start would be this list (note that they
+      # give example domains, though, not anything we can use to construct a reliable reg exp):
+      # http://code.google.com/apis/analytics/docs/tracking/gaTrackingTraffic.html#searchEngine
     }
     
     def initialize(app, opts = {})
       @app = app
       
-      # require 'ruby-debug'
-      # debugger
-      
-      @engines = opts[:engines] ? opts[:engines] : DEFAULT_ENGINES.merge(opts[:additional_engines] || {})
+      @engines   = opts[:engines]
+      @engines ||= DEFAULT_ENGINES.merge(opts[:additional_engines] || {})
     end      
 
     def call(env)
