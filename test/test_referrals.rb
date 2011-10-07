@@ -18,21 +18,21 @@ class ReferralTest < MiniTest::Unit::TestCase
     get '/', nil, 'HTTP_REFERER' => "http://www.google.com/search?q=ruby+on+rails&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a" 
     
     assert_equal "google", last_request.env['referring.search_engine']
-    assert_equal "ruby on rails", last_request.env['referring.search_phrase']
+    assert_equal "ruby on rails", last_request.env['referring.search_terms']
   end
 
   def test_handles_missing_params
     get '/', nil, 'HTTP_REFERER' => "http://www.google.com/search?ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a" 
     
     assert_equal "google", last_request.env['referring.search_engine']
-    assert_equal nil, last_request.env['referring.search_phrase']
+    assert_equal nil, last_request.env['referring.search_terms']
   end
 
   def test_handles_no_referer
     get '/'
     
     assert_equal nil, last_request.env['referring.search_engine']
-    assert_equal nil, last_request.env['referring.search_phrase']
+    assert_equal nil, last_request.env['referring.search_terms']
   end
 
 end

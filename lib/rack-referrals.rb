@@ -5,7 +5,7 @@ module Rack
   #
   # Rack Middleware for extracting information from the HTTP-REFERER header.
   # Specifically, it populates +env['referring.search_engine']+ and 
-  # +env['referring.search_phrase']+ if it detects a request came from a known 
+  # +env['referring.search_terms']+ if it detects a request came from a known 
   # search engine.
   #
   class Referrals
@@ -54,7 +54,7 @@ module Rack
           rescue URI::InvalidURIError; nil
           end
           
-          env["referring.search_phrase"] = query_string && Rack::Utils.parse_query(query_string)[param_name]
+          env["referring.search_terms"] = query_string && Rack::Utils.parse_query(query_string)[param_name]
         end
       end
       

@@ -25,14 +25,38 @@ Example Usage (Rails 3 App)
 
 Just add it to your middleware stack:
 
+    # Rails 3 App - in config/application.rb
     class Application < Rails::Application
       ...
       config.middleware.use Rack::Referrals
       ...
     end
+    
+    # Rails 2 App - in config/environment.rb
+    Rails::Initializer.run do |config|
+      ...
+      config.middleware.use "Rack::Referrals"
+      ...
+    end
 
+Now you can check any request to see what search engine referred it, and if any did, then what search terms were used.
 
-Getting Fancy
+  class ExampleController < ApplicationController
+
+    def index
+      str = if request.env['referring.search_engine']
+        "You're from #{request.env['referring.search_engine']}, " \
+        "where you searched: #{request.env['referring.search_terms']}"
+      else
+        "You're from somewhere boring."
+      end
+      
+      render :text => str
+    end
+    
+  end
+
+Gettin' Fancy
 -------------
 
 This knows about a number of search engines by default (Google, Yahoo, Bing, some big Russian ones... check the <code>DEFAULT_ENGINES</code> constant in <code>lib/rack-referrals.rb</code> for the current list).
