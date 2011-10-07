@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Kali Donovan"]
   s.email       = ["kali@deviantech.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Extracts referring search engine info.}
+  s.description = %q{If the user clicked through from a search engine, this middleware will detect the engine used and the terms searched.}
 
   s.rubyforge_project = "rack-referrals"
 
@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest"
   s.add_development_dependency "rack-test"
   s.add_development_dependency "rake"
-  # s.add_runtime_dependency "rest-client"
+  s.add_dependency 'rack'
 end

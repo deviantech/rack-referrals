@@ -1,13 +1,13 @@
 Rack/Referrals
 =============
 
-Rack/referrals is a rack middleware that extracts information from each request about the referring website.  Specifically, it parses the HTTP-REFERER header and tells you if the request came from a known search engine (and if so, what the search terms were).
+Rack/referrals is a rack middleware that extracts information from each request about the referring website.  Specifically, it parses the HTTP-REFERER header and tells you if the request came from a known search engine (and if so, what the search terms were). It was inspired by the [search_sniffer](https://github.com/squeejee/search_sniffer) plugin, but provides that functionality as a middleware.
 
 
 Purpose
 -------
 
-Ever wanted to know if the page is being viewed by a user who got there via a search engine?  If so, ever wanted to show them a link like "Interested in <search term>? Click here to browse related widgets"? 
+Ever wanted to know if the user viewing the current page got there via a search engine?  If so, ever wanted to show them a link like "Interested in *[search term*]? Click here to browse related widgets"? 
   
 Yeah, this'll help.
 
