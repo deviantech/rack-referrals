@@ -1,9 +1,9 @@
-require "test/unit"
+require "minitest/autorun"
 require "rack/test"
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/rack-referrals')
 
-class ReferralTest < Test::Unit::TestCase
+class ReferralTest < MiniTest::Unit::TestCase
   include Rack::Test::Methods
 
   def app    
@@ -35,5 +35,5 @@ class ReferralTest < Test::Unit::TestCase
     assert_equal nil, last_request.env['referring.search_phrase']
   end
 
-
 end
+
