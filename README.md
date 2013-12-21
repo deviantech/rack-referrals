@@ -20,12 +20,12 @@ Quick and easy:
     gem install rack-referrals
 
 
-Example Usage (Rails 3 App)
+Example Usage
 -------------------------
 
 Just add it to your middleware stack:
 
-    # Rails 3 App - in config/application.rb
+    # Rails 3+ App - in config/application.rb
     class Application < Rails::Application
       ...
       config.middleware.use Rack::Referrals
@@ -41,20 +41,20 @@ Just add it to your middleware stack:
 
 Now you can check any request to see what search engine referred it, and if any did, then what search terms were used.
 
-  class ExampleController < ApplicationController
-
-    def index
-      str = if request.env['referring.search_engine']
-        "You're from #{request.env['referring.search_engine']}, " \
-        "where you searched: #{request.env['referring.search_terms']}"
-      else
-        "You're from somewhere boring."
-      end
-      
-      render :text => str
-    end
+    class ExampleController < ApplicationController
     
-  end
+      def index
+        str = if request.env['referring.search_engine']
+          "You're from #{request.env['referring.search_engine']}, " \
+          "where you searched: #{request.env['referring.search_terms']}"
+        else
+          "You're from somewhere boring."
+        end
+      
+        render :text => str
+      end
+    
+    end
 
 Gettin' Fancy
 -------------

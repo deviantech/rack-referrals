@@ -28,7 +28,7 @@ module Rack
       :alltheweb  => [/^https?:\/\/(www\.)?alltheweb.*/, 'q'] 
       
       # Want to add support for more? A good place to start would be this list (note that they
-      # give example domains, though, not anything we can use to construct a reliable reg exp):
+      # give example domains, though, not anything we can use to construct a reliable regex):
       # http://code.google.com/apis/analytics/docs/tracking/gaTrackingTraffic.html#searchEngine
     }
     
@@ -41,7 +41,7 @@ module Rack
 
     def call(env)
       request = Rack::Request.new(env)
-      from = request.env["HTTP_REFERER"]
+      from    = request.env["HTTP_REFERER"]
       
       if from.to_s.length > 0
         if engine = @engines.detect {|name, data| from =~ data[0] }
